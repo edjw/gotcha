@@ -3,9 +3,9 @@ package layouts
 templ HomeLayout(pageName string) {
 	@BaseLayout(pageName) {
 		<header>
-			<h1>{ pageName }</h1>
+			<h1 class="text-2xl">{ pageName }</h1>
 		</header>
-		<main>
+		<main class="prose">
 			{ children... }
 		</main>
 		<footer>

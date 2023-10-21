@@ -7,8 +7,9 @@ templ Index() {
 		<p>This is the home page.</p>
 		<p>This button below uses HTMX to fetch the h1 from `https://jsonplaceholder.typicode.com` and then replaces this page's current h1.</p>
 		<button
+ 			class="border rounded px-2 py-1"
  			hx-get="https://jsonplaceholder.typicode.com/"
- 			hx-swap="outerHTML"
+ 			hx-swap="innerHTML"
  			hx-target="h1"
  			hx-select="h1"
 		>

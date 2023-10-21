@@ -4,15 +4,15 @@ A stack for web development
 
 - Go ✅
 - Templ ✅
-- Tailwind
+- Tailwind ✅
 - Chi ✅
-- Htmx
+- Htmx ✅
 - Air
 - Browser sync
 
 No repeated firewall issue on macOS ✅
 
-
+how change css build in production?
 
 ## Run
 
