@@ -6,8 +6,9 @@ tmp_dir = "tmp"
 args_bin = []
 bin = "./tmp/main"
 cmd = "templ generate && pnpm exec tailwindcss -i ./assets/global.css -o ./public/global.css --minify && go build -o ./tmp/main ."
+
 delay = 1000
-exclude_dir = ["tmp", "node_modules"]
+exclude_dir = ["tmp", "node_modules", "public"]
 exclude_file = []
 exclude_regex = [".*_templ.go"]
 exclude_unchanged = false
