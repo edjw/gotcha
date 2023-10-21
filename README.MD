@@ -10,7 +10,7 @@ A stack for web development
 - Air
 - Browser sync
 
-No repeated firewall issue on macOS
+No repeated firewall issue on macOS ✅
 
 
 

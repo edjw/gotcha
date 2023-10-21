@@ -1,0 +1,18 @@
+package components
+
+import "github.com/edjw/gotcha/components/layouts"
+
+templ Index() {
+	@layouts.HomeLayout("Home") {
+		<p>This is the home page.</p>
+		<p>This button below uses HTMX to fetch the h1 from `https://jsonplaceholder.typicode.com` and then replaces this page's current h1.</p>
+		<button
+ 			hx-get="https://jsonplaceholder.typicode.com/"
+ 			hx-swap="outerHTML"
+ 			hx-target="h1"
+ 			hx-select="h1"
+		>
+			Swap the title with jsonplaceholder title
+		</button>
+	}
+}

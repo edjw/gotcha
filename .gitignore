@@ -1,2 +1,5 @@
+gotcha
+tmp/
 *_templ.go
-tmp
+public/global.css
+node_modules/

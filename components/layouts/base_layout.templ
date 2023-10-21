@@ -1,0 +1,16 @@
+package layouts
+
+templ BaseLayout(pageName string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ pageName }</title>
+			<script src="/public/htmx.js"></script>
+		</head>
+		<body>
+			{ children... }
+		</body>
+	</html>
+}
