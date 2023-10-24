@@ -1,0 +1,42 @@
+# flyctl launch added from .gitignore
+**/gotcha
+**/tmp
+# **/*_templ.go - needs to be used by docker
+**/public/global.css
+
+# flyctl launch added from node_modules/.pnpm/tailwindcss@3.3.3/node_modules/tailwindcss/stubs/.gitignore
+!node_modules/.pnpm/tailwindcss@3.3.3/node_modules/tailwindcss/stubs/**/*
+**/node_modules
+
+# flyctl launch added from vendor/github.com/a-h/templ/.gitignore
+# Output.
+vendor/github.com/a-h/templ/**/cmd/templ/templ
+
+# Logs.
+vendor/github.com/a-h/templ/**/cmd/templ/lspcmd/*log.txt
+
+# Go code coverage.
+vendor/github.com/a-h/templ/**/coverage.out
+vendor/github.com/a-h/templ/**/coverage
+
+# Mac filesystem jank.
+vendor/github.com/a-h/templ/**/.DS_Store
+
+# Docusaurus.
+vendor/github.com/a-h/templ/**/docs/build
+vendor/github.com/a-h/templ/**/docs/resources/_gen
+vendor/github.com/a-h/templ/**/node_modules
+vendor/github.com/a-h/templ/**/dist
+
+# Nix artifacts.
+vendor/github.com/a-h/templ/**/result
+
+# Editors
+## nvim
+vendor/github.com/a-h/templ/**/.null-ls*
+
+# flyctl launch added from vendor/github.com/go-chi/chi/v5/.gitignore
+vendor/github.com/go-chi/chi/v5/**/.idea
+vendor/github.com/go-chi/chi/v5/**/*.sw?
+vendor/github.com/go-chi/chi/v5/**/.vscode
+fly.toml
