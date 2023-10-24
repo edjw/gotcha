@@ -2,14 +2,17 @@
 
 A stack for web development using the following projects:
 
-- Go
-- Templ for templating
-- Tailwind for CSS
-- Chi for routing
-- Htmx for dynamic elements and fetching
-- Air for live-reloading of Go app
+- **Go**
+- **T**empl for templating
+- **T**ailwind for CSS
+- **Ch**i for routing
+- **H**tmx for dynamic elements and fetching
+- **A**ir for live-reloading of Go app
 - Browser sync for live-reloading of the browser
 
+Includes a working example
+
+Includes deployment setups for Render and Fly.io and a Dockerfile
 
 ## Run locally
 
