@@ -1,6 +1,7 @@
 package layouts
 
 templ BaseLayout(pageName string) {
+	// This is the base layout for all pages.
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -9,8 +10,11 @@ templ BaseLayout(pageName string) {
 			<title>{ pageName }</title>
 			<link href="/public/global.css" rel="stylesheet"/>
 			<script src="/public/htmx.js"></script>
+			<script>
+				htmx.config.globalViewTransitions = true;
+			</script>
 		</head>
-		<body>
+		<body class="container px-8 py-8 grid grid-cols-1 grid-rows-[auto_1fr_auto] min-h-[100vh]">
 			{ children... }
 		</body>
 	</html>

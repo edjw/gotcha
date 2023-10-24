@@ -9,6 +9,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/edjw/gotcha/components"
+	"github.com/edjw/gotcha/components/partials"
 	"github.com/edjw/gotcha/friendlyServer"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -16,6 +17,28 @@ import (
 
 //go:embed public/*
 var embeddedFiles embed.FS
+
+func partialsRouter() *chi.Mux {
+	r := chi.NewRouter()
+
+	// A map of partial routes to templ component partials.
+	partialsMap := map[string]func() templ.Component{
+		"new_headline": partials.NewHeadline,
+	}
+
+	r.Get("/{partialName}", func(w http.ResponseWriter, r *http.Request) {
+		partialName := chi.URLParam(r, "partialName")
+
+		partialComponent, ok := partialsMap[partialName]
+		if !ok {
+			http.Error(w, "Partial not found.", http.StatusNotFound)
+			return
+		}
+		templ.Handler(partialComponent()).ServeHTTP(w, r)
+	})
+
+	return r
+}
 
 func main() {
 	r := chi.NewRouter()
@@ -45,6 +68,9 @@ func main() {
 
 	// Routes
 	r.Get("/", templ.Handler(components.Index()).ServeHTTP)
+
+	// Partials / Fragments
+	r.Mount("/partials", partialsRouter())
 
 	// Start the server
 	friendlyServer.FriendlyServer(r)

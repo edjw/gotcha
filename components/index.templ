@@ -3,17 +3,34 @@ package components
 import "github.com/edjw/gotcha/components/layouts"
 
 templ Index() {
+	// Using the HomeLayout component to wrap the content of this page.
 	@layouts.HomeLayout("Home") {
-		<p>This is the home page.</p>
-		<p>This button below uses HTMX to fetch the h1 from `https://jsonplaceholder.typicode.com` and then replaces this page's current h1.</p>
-		<button
- 			class="border rounded px-2 py-1"
- 			hx-get="https://jsonplaceholder.typicode.com/"
- 			hx-swap="innerHTML"
- 			hx-target="h1"
- 			hx-select="h1"
-		>
-			Swap the title with jsonplaceholder title
-		</button>
+		<section>
+			<p>This is the home page.</p>
+			<p>This button below uses HTMX to fetch the headline from <code>https://jsonplaceholder.typicode.com</code> and then replaces this page's current h1 with the content of that headline.</p>
+		</section>
+		<section>
+			<button
+ 				class="flex items-center px-2 py-1 border rounded gap-x-2"
+ 				hx-get="https://jsonplaceholder.typicode.com/"
+ 				hx-swap="innerHTML ignoreTitle:true"
+ 				hx-target="h1"
+ 				hx-select="#hero .container span"
+			>
+				Swap the title with jsonplaceholder title
+				<img class="my-0 opacity-0 htmx-indicator h-7" src="/public/spinner.svg"/>
+			</button>
+		</section>
+		<section>
+			<button
+ 				class="px-2 py-1 border rounded"
+ 				hx-get="/partials/new_headline"
+ 				hx-swap="innerHTML ignoreTitle:true"
+ 				hx-target="h1"
+ 				hx-select="h1"
+			>
+				Swap the title with a local partial
+			</button>
+		</section>
 	}
 }

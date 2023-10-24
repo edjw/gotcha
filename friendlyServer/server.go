@@ -1,7 +1,7 @@
 package friendlyServer
 
 // This is a simple server to help development on a Mac. It also works in production on Fly and Render.
-// It works around the firewall issue on Macs where you have to manually allow incoming connections to your Go app on every rebuild.
+// It works around the issue on Macs where you have to tell your firewall to manually allow incoming connections to your Go app on every single rebuild.
 
 import (
 	"log"
