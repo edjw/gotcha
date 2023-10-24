@@ -22,7 +22,7 @@ If you're developing on macOS, set `export GO_ENV=development` in your `.zshrc` 
 
 Run `air` to start in development.
 
-If you want live-reload of the browser, run `browser-sync start --config browser-sync-config.js` in a separate terminal tab. It has to wait for the things in air to finish before reloading so it is not a very fast automatic live-reload. You can also just manually refresh your browser.
+If you want live-reload of the browser, run `browser-sync start --config browser-sync-config.js` in a separate terminal tab. It has to wait for the things in `air` to finish before reloading so it is not a very fast automatic live-reload. You can also just manually refresh your browser.
 
 ## Deploy
 
