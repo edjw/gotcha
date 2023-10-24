@@ -4,7 +4,7 @@ FROM node:lts AS node-builder
 # Set the working directory
 WORKDIR /app
 
-# Copy necessary Node.js files and assets
+# Copy necessary Node.js files, assets, components for Tailwind to look at, and the Tailwind config
 COPY package*.json ./
 COPY ./assets ./assets
 COPY ./components ./components
