@@ -40,4 +40,4 @@ If you want live-reload of the browser, run `browser-sync start --config browser
 
 - Show how to deploy to Railway
 
-- Make it into a cli where you can choose what parts you want like t3 but make the cli in cobra-cli. Mainly to practise cobra-cli.
+- Make it into a cli where you can choose what parts you want like [create-t3-app](https://create.t3.gg) but make the cli in cobra-cli. Mainly to practise cobra-cli.
