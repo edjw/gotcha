@@ -11,7 +11,7 @@ A stack for web development
 - Browser sync
 
 
-## Run
+## Run locally
 
 Install tailwind with `pnpm install`
 
@@ -19,9 +19,13 @@ If you're developing on macOS, set `export GO_ENV=development` in your `.zshrc` 
 
 Run `air` to start in development. If you want live-reload of the browser, run `browser-sync start --config browser-sync-config.js` in a separate terminal tab. It has to wait for the things in air to finish before reloading. You can also just manually refresh your browser.
 
+## Deploy
+
+Only deploying to render.com so far. Use `make deploy_render` as your build command on Render.
+
 
 ## Future
 
-Show how to deploy to fly (gh action), render, railway
+Show how to deploy to fly (gh action), railway
 
 Maybe make it into a cli like t3 but make the cli in cobra-cli
