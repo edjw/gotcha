@@ -1,6 +1,6 @@
 deploy_render:
 	export GOPATH=/opt/render/project/go && \
-	export PATH=$PATH:$$GOPATH/bin && \
+	export PATH=$$PATH:$$GOPATH/bin && \
 	go install github.com/a-h/templ/cmd/templ@v0.2.408 && \
 	$$GOPATH/bin/templ generate && \
 	pnpm install && \
