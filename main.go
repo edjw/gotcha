@@ -13,12 +13,14 @@ import (
 	"github.com/edjw/gotcha/friendlyServer"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/unrolled/secure"
 )
 
 //go:embed public/*
 var embeddedFiles embed.FS
 
 func partialsRouter() *chi.Mux {
+
 	r := chi.NewRouter()
 
 	// A map of partial routes to templ component partials.
@@ -41,6 +43,8 @@ func partialsRouter() *chi.Mux {
 }
 
 func main() {
+	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
+
 	r := chi.NewRouter()
 
 	// Middleware
@@ -48,10 +52,17 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
+	secureMiddleware := secure.New(secure.Options{
+		ReferrerPolicy:     "same-origin",
+		ContentTypeNosniff: true,
+		FrameDeny:          true,
+		BrowserXssFilter:   true,
+		IsDevelopment:      devEnvExists && devEnv == "development",
+	})
+	r.Use(secureMiddleware.Handler)
+
 	// Serve the public folder.
 	var fileServer http.Handler
-
-	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
 
 	if devEnvExists && devEnv == "development" {
 		fileServer = http.FileServer(http.Dir("./public"))
