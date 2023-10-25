@@ -6,13 +6,15 @@ A stack for web development using the following projects:
 - **T**empl for templating
 - **T**ailwind for CSS
 - **Ch**i for routing
-- **H**tmx for dynamic elements and fetching
+- **H**tmx for fetching server state as HTML and updating the DOM
 - **A**ir for live-reloading of Go app
 - Browser sync for live-reloading of the browser
 
 Includes a working example
 
-Includes deployment setups for Render and Fly.io and a Dockerfile
+Includes deployment setups for Render and Fly.io and a Dockerfile. Successfully deployed to Railway and AWS via Flightcontrol with the Dockerfile.
+
+This is a learning project for me to learn Go. I'm not a Go developer so I'm sure there are better ways to do things.
 
 ## Run locally
 
@@ -37,9 +39,8 @@ If you want live-reload of the browser, run `browser-sync start --config browser
 
 Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
 
-
 ## Future
 
-- Show how to deploy to Railway
+- Add something like AlpineJS, Hyperscript or StimulusJS for on-page interactivity
 
 - Make it into a cli where you can choose what parts you want like [create-t3-app](https://create.t3.gg) but make the cli in cobra-cli. Mainly to practise cobra-cli.
