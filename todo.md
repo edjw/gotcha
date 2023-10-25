@@ -1,1 +1,3 @@
-show sending data to a partial
+- show sending data to a partial
+- protect partials unless referrer is self or similar 
+- https://github.com/unrolled/secure or similar
