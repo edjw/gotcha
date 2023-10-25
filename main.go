@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
@@ -34,11 +35,14 @@ func partialsRouter() *chi.Mux {
 			var siteURL string
 
 			if devEnvExists && devEnv == "development" {
-				siteURL = "http://127.0.0.1"
+				siteURL = "http://127.0.0.1:8080"
 			} else if deploymentSiteURLExists {
 				siteURL = deploymentSiteURL
 			}
-
+			fmt.Println()
+			fmt.Println("siteURL:", siteURL)
+			fmt.Println("deploymentSiteURL:", deploymentSiteURL)
+			fmt.Println()
 			if !strings.HasPrefix(referer, siteURL) {
 				http.Error(w, "Forbidden", http.StatusForbidden)
 				return
@@ -60,6 +64,10 @@ func partialsRouter() *chi.Mux {
 
 	r.Get("/{partialName}", func(w http.ResponseWriter, r *http.Request) {
 		partialName := chi.URLParam(r, "partialName")
+		referer := r.Header.Get("Referer")
+		fmt.Println()
+		fmt.Println("Referer:", referer)
+		fmt.Println()
 
 		partialComponent, ok := partialsMap[partialName]
 		if !ok {
