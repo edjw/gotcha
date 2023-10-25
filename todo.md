@@ -1,3 +1,2 @@
 - show sending data to a partial
-- protect partials unless referrer is self or similar 
-- https://github.com/unrolled/secure or similar
+- any way of doing browser-sync automatically? any alternatives?

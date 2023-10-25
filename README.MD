@@ -35,6 +35,8 @@ If you want live-reload of the browser, run `browser-sync start --config browser
 
 - The Github action is optional but it is nice to have a build on every push to `main` which Fly doesn't support natively.
 
+Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
+
 
 ## Future
 
