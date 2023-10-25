@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
@@ -26,8 +25,8 @@ func partialsRouter() *chi.Mux {
 	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
 
 	onlyInternal := func(next http.Handler) http.Handler {
-		// This middleware checks that the request is coming from the same server.
-		// It's not foolproof, but it's a good start
+		// This middleware checks that the request is coming from the same URL.
+		// It's not foolproof, but it's a good start at keep partials internal.
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Check the Referer header
 			referer := r.Header.Get("Referer")
@@ -39,10 +38,7 @@ func partialsRouter() *chi.Mux {
 			} else if deploymentSiteURLExists {
 				siteURL = deploymentSiteURL
 			}
-			fmt.Println()
-			fmt.Println("siteURL:", siteURL)
-			fmt.Println("deploymentSiteURL:", deploymentSiteURL)
-			fmt.Println()
+
 			if !strings.HasPrefix(referer, siteURL) {
 				http.Error(w, "Forbidden", http.StatusForbidden)
 				return
@@ -64,10 +60,6 @@ func partialsRouter() *chi.Mux {
 
 	r.Get("/{partialName}", func(w http.ResponseWriter, r *http.Request) {
 		partialName := chi.URLParam(r, "partialName")
-		referer := r.Header.Get("Referer")
-		fmt.Println()
-		fmt.Println("Referer:", referer)
-		fmt.Println()
 
 		partialComponent, ok := partialsMap[partialName]
 		if !ok {
