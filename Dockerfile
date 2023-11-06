@@ -7,7 +7,8 @@ WORKDIR /app
 # Copy necessary Node.js files, assets, components for Tailwind to look at, and the Tailwind config
 COPY package*.json ./
 COPY ./assets ./assets
-COPY ./components ./components
+COPY ./layouts ./layouts
+COPY ./pages ./pages
 COPY tailwind.config.js ./
 
 # Install production dependencies and run Tailwind CSS compilation
