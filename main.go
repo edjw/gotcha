@@ -9,9 +9,9 @@ import (
 	"strings"
 
 	"github.com/a-h/templ"
-	"github.com/edjw/gotcha/components"
-	"github.com/edjw/gotcha/components/partials"
 	"github.com/edjw/gotcha/friendlyServer"
+	"github.com/edjw/gotcha/pages"
+	"github.com/edjw/gotcha/pages/partials"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/unrolled/secure"
@@ -20,7 +20,34 @@ import (
 //go:embed public/*
 var embeddedFiles embed.FS
 
-func partialsRouter() *chi.Mux {
+func pagesRouter(pagesMap map[string]func() templ.Component) *chi.Mux {
+
+	r := chi.NewRouter()
+
+	pathHandler := func(path string, w http.ResponseWriter, r *http.Request) {
+		page, ok := pagesMap[path]
+		if !ok {
+			http.Error(w, "Page not found.", http.StatusNotFound)
+			return
+		}
+		templ.Handler(page()).ServeHTTP(w, r)
+	}
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		pathHandler("/", w, r)
+
+	})
+
+	r.Get("/{pageName}", func(w http.ResponseWriter, r *http.Request) {
+
+		pageName := chi.URLParam(r, "pageName")
+		pathHandler("/"+pageName, w, r)
+	})
+
+	return r
+}
+
+func partialsRouter(partialsMap map[string]func() templ.Component) *chi.Mux {
 	deploymentSiteURL, deploymentSiteURLExists := os.LookupEnv("DEPLOYMENT_SITE_URL")
 	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
 
@@ -53,11 +80,6 @@ func partialsRouter() *chi.Mux {
 		r.Use(onlyInternal)
 	}
 
-	// A map of partial routes to templ component partials.
-	partialsMap := map[string]func() templ.Component{
-		"new_headline": partials.NewHeadline,
-	}
-
 	r.Get("/{partialName}", func(w http.ResponseWriter, r *http.Request) {
 		partialName := chi.URLParam(r, "partialName")
 
@@ -73,6 +95,18 @@ func partialsRouter() *chi.Mux {
 }
 
 func main() {
+
+	// A map of page routes to pages written as templ components.
+	pagesMap := map[string]func() templ.Component{
+		"/":      pages.Home,
+		"/about": pages.About,
+	}
+
+	// A map of partial routes to partials written as templ components.
+	partialsMap := map[string]func() templ.Component{
+		"new_headline": partials.NewHeadline,
+	}
+
 	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
 
 	r := chi.NewRouter()
@@ -107,12 +141,13 @@ func main() {
 
 	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 
-	// Routes
-	r.Get("/", templ.Handler(components.Index()).ServeHTTP)
+	// Page routes
+	// r.Get("/", templ.Handler(pages.Index()).ServeHTTP)
+	r.Mount("/", pagesRouter(pagesMap))
 
 	// Partials / Fragments
-	r.Mount("/partials", partialsRouter())
+	r.Mount("/partials", partialsRouter(partialsMap))
 
-	// Start the server
+	// Start the server using the local Friendly Server package
 	friendlyServer.FriendlyServer(r)
 }

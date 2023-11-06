@@ -1,0 +1,12 @@
+package pages
+
+import "github.com/edjw/gotcha/layouts"
+
+templ About() {
+	// Using the HomeLayout component to wrap the content of this page.
+	@layouts.HomeLayout("About") {
+		<section>
+			<p>This is the About page.</p>
+		</section>
+	}
+}

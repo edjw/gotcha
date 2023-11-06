@@ -7,7 +7,9 @@ A stack for web development using the following projects:
 - **T**ailwind for CSS
 - **Ch**i for routing
 - **H**tmx for fetching server state as HTML and updating the DOM
-- **A**ir for live-reloading of Go app
+- **A**lpine for clientside Javascript in your HTML
+
+- Air for live-reloading of Go app
 - Browser sync for live-reloading of the browser
 
 Includes a working example
@@ -39,8 +41,15 @@ If you want live-reload of the browser, run `browser-sync start --config browser
 
 Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
 
-## Future
+### Railway
 
-- Add something like AlpineJS, Hyperscript or StimulusJS for on-page interactivity
+- Works with just the Dockerfile
+
+### AWS via Flightcontrol
+
+- Works with just the Dockerfile
+
+
+## Future
 
 - Make it into a cli where you can choose what parts you want like [create-t3-app](https://create.t3.gg) but make the cli in cobra-cli. Mainly to practise cobra-cli.

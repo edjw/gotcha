@@ -1,0 +1,111 @@
+package pages
+
+import "github.com/edjw/gotcha/layouts"
+
+templ Home() {
+	// Using the HomeLayout component to wrap the content of this page.
+	@layouts.HomeLayout("Home") {
+		<section>
+			<p>This is the home page.</p>
+		</section>
+		<section>
+			<h2>A demo of HTMX</h2>
+			<p>This first button below uses HTMX to fetch the headline from <code>https://jsonplaceholder.typicode.com</code> and then replaces this page's current h1 with the content of that headline. The second button fetches a local partial. It keeps locality of behaviour to within the HTML.</p>
+			<div class="flex flex-col gap-y-4">
+				<div>
+					<button
+ 						class="flex items-center px-2 py-1 border rounded select-none gap-x-2"
+ 						hx-get="https://jsonplaceholder.typicode.com/"
+ 						hx-swap="innerHTML ignoreTitle:true"
+ 						hx-target="h1"
+ 						hx-select="#hero .container span"
+					>
+						Swap the title with jsonplaceholder title
+						<img class="my-0 opacity-0 htmx-indicator h-7" src="/public/spinner.svg"/>
+					</button>
+				</div>
+				<div>
+					<button
+ 						class="px-2 py-1 border rounded select-none"
+ 						hx-get="/partials/new_headline"
+ 						hx-swap="outerHTML ignoreTitle:true"
+ 						hx-target="h1"
+ 						hx-select="h1"
+					>
+						Swap the title with a local partial
+					</button>
+				</div>
+			</div>
+			<p>Here's the code for that</p>
+			<pre>
+				&lt;button
+				<br/>
+				&emsp;class="flex items-center px-2 py-1 border rounded select-none gap-x-2"
+				<br/>
+				&emsp;hx-get="https://jsonplaceholder.typicode.com/"
+				<br/>
+				&emsp;hx-swap="innerHTML ignoreTitle:true"
+				<br/>
+				&emsp;hx-target="h1"
+				<br/>
+				&emsp;hx-select="#hero .container span"&gt;
+				<br/>
+				&emsp;&emsp;Swap the title with jsonplaceholder title
+				<br/>
+				&emsp;&emsp;&lt;img
+				<br/>
+				&emsp;&emsp;&emsp;&emsp;class="my-0 opacity-0 htmx-indicator h-7"
+				<br/>
+				&emsp;&emsp;&emsp;&emsp;src="/public/spinner.svg"/&gt;
+				<br/>
+				&lt;/button&gt;
+				<br/>
+				<br/>
+				&lt;button
+				<br/>
+				&emsp;class="px-2 py-1 border rounded select-none"
+				<br/>
+				&emsp;hx-get="/partials/new_headline"
+				<br/>
+				&emsp;hx-swap="outerHTML ignoreTitle:true"
+				<br/>
+				&emsp;hx-target="h1"
+				<br/>
+				&emsp;hx-select="h1"&gt;
+				<br/>
+				&emsp;&emsp;Swap the title with a local partial
+				<br/>
+				&lt;/button&gt;
+			</pre>
+		</section>
+		<section>
+			<h2>A demo of Alpine</h2>
+			<p>The button below uses clientside Javascript with Alpine to increment a number. It keeps locality of behaviour to within the HTML.</p>
+			<div x-data="{ count: 0 }">
+				<button
+ 					class="px-2 py-1 border rounded select-none"
+ 					x-on:click="count++"
+				>Increment</button>
+				<span x-text="count"></span>
+			</div>
+			<div>
+				<p>Here's the code for that</p>
+				<pre>
+					&lt;div x-data="&#123; count: 0 &#125;"&gt;
+					<br/>
+					&emsp;&emsp;&lt;button
+					<br/>
+					&emsp;&emsp;&emsp;class="px-2 py-1 border rounded select-none"
+					<br/>
+					&emsp;&emsp;&emsp;x-on:click="count++"&gt;
+					<br/>
+					&emsp;&emsp;&emsp;&emsp;Increment&lt;/button&gt;
+					<br/>
+					&emsp;&emsp;&lt;span x-text="count"&gt;&lt;/span&gt;
+					<br/>
+					&lt;/div&gt;
+				</pre>
+			</div>
+		</section>
+	}
+}

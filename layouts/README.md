@@ -1,0 +1,1 @@
+A folder for layouts using templ components
