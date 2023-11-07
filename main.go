@@ -143,10 +143,9 @@ func main() {
 	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 
 	// Page routes
-	// r.Get("/", templ.Handler(pages.Index()).ServeHTTP)
 	r.Mount("/", pagesRouter(pagesMap))
 
-	// Partials / Fragments
+	// Partials
 	r.Mount("/partials", partialsRouter(partialsMap))
 
 	// Start the server using the local Friendly Server package
