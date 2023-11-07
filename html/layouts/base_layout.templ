@@ -21,6 +21,7 @@ templ BaseLayout(pageName string) {
 		<body class="container px-8 py-8 grid grid-cols-1 grid-rows-[auto_1fr_auto] min-h-[100vh] prose">
 			<header>
 				<h1 class="mb-1">{ pageName }</h1>
+				@components.Menu()
 			</header>
 			<main class="flex flex-col gap-y-8">
 				{ children... }

@@ -4,5 +4,5 @@ module.exports = {
 	// notify: false,
 	open: false,
 	ui: false,
-	reloadDelay: 2000,
+	reloadDelay: 2500,
 };
