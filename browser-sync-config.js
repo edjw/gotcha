@@ -1,8 +1,8 @@
 module.exports = {
 	proxy: "http://localhost:8080",
 	files: ["html/**/*.templ", "public/**/*.*", "main.go"],
-	notify: false,
+	// notify: false,
 	open: false,
 	ui: false,
-	reloadDelay: 2500,
+	reloadDelay: 2000,
 };
