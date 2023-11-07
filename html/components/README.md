@@ -1,0 +1,1 @@
+A folder for standalone components that can be reused by several layouts, pages, or partials

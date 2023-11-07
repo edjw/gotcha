@@ -1,0 +1,12 @@
+package layouts
+
+import "strings"
+
+templ PageLayout(pageName string) {
+	// This is the layout for the home page
+	@BaseLayout(pageName) {
+		<div id={ strings.ToLower(pageName) }>
+			{ children... }
+		</div>
+	}
+}

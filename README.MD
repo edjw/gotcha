@@ -28,6 +28,8 @@ Run `air` to start in development.
 
 If you want live-reload of the browser, run `browser-sync start --config browser-sync-config.js` in a separate terminal tab. It has to wait for the things in `air` to finish before reloading so it is not a very fast automatic live-reload. You can also just manually refresh your browser.
 
+Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
+
 ## Deploy
 
 ### Render
@@ -38,8 +40,6 @@ If you want live-reload of the browser, run `browser-sync start --config browser
 - Use the included `fly.toml`, `Dockerfile` and Github action to deploy to <https://fly.io>
 
 - The Github action is optional but it is nice to have a build on every push to `main` which Fly doesn't support natively.
-
-Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
 
 ### Railway
 

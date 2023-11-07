@@ -10,8 +10,8 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/edjw/gotcha/friendlyServer"
-	"github.com/edjw/gotcha/pages"
-	"github.com/edjw/gotcha/pages/partials"
+	"github.com/edjw/gotcha/html/pages"
+	"github.com/edjw/gotcha/html/partials"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/unrolled/secure"
@@ -48,6 +48,7 @@ func pagesRouter(pagesMap map[string]func() templ.Component) *chi.Mux {
 }
 
 func partialsRouter(partialsMap map[string]func() templ.Component) *chi.Mux {
+	// If you set an environment variable called DEPLOYMENT_SITE_URL as the url of your app, then you can go someway towards making the partials routes only accessible by your site and not from others.
 	deploymentSiteURL, deploymentSiteURLExists := os.LookupEnv("DEPLOYMENT_SITE_URL")
 	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
 

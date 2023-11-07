@@ -1,0 +1,1 @@
+A folder for page layouts that can be reused by multiple pages
