@@ -1,0 +1,15 @@
+package partials
+
+type PersonData struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+}
+
+// person is passed in from main.go
+
+templ RandomName(person PersonData) {
+	<h1>
+		<span class="italic">{ person.FirstName }</span>
+		<span>{ person.LastName }</span>
+	</h1>
+}

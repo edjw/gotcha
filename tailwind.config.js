@@ -6,8 +6,5 @@ module.exports = {
 		"./html/layouts/**/*.templ",
 		"./html/partials/**/*.templ",
 	],
-	theme: {
-		extend: {},
-	},
 	plugins: [require("@tailwindcss/typography")],
 };

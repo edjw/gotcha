@@ -9,7 +9,8 @@ import (
 	"strings"
 
 	"github.com/a-h/templ"
-	"github.com/edjw/gotcha/friendlyServer"
+	"github.com/edjw/gotcha/functions/fetchRandomUser"
+	"github.com/edjw/gotcha/functions/friendlyServer"
 	"github.com/edjw/gotcha/html/pages"
 	"github.com/edjw/gotcha/html/partials"
 	"github.com/go-chi/chi/v5"
@@ -20,43 +21,25 @@ import (
 //go:embed public/*
 var embeddedFiles embed.FS
 
-func pagesRouter(pagesMap map[string]func() templ.Component) *chi.Mux {
+func main() {
 
 	r := chi.NewRouter()
+	partialsRouter := chi.NewRouter()
 
-	pathHandler := func(path string, w http.ResponseWriter, r *http.Request) {
-		page, ok := pagesMap[path]
-		if !ok {
-			http.Error(w, "Page not found.", http.StatusNotFound)
-			return
-		}
-		templ.Handler(page()).ServeHTTP(w, r)
-	}
-
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		pathHandler("/", w, r)
-
-	})
-
-	r.Get("/{pageName}", func(w http.ResponseWriter, r *http.Request) {
-
-		pageName := chi.URLParam(r, "pageName")
-		pathHandler("/"+pageName, w, r)
-	})
-
-	return r
-}
-
-func partialsRouter(partialsMap map[string]func() templ.Component) *chi.Mux {
+	// Apply middleware to the partials subrouter
 	// If you set an environment variable called DEPLOYMENT_SITE_URL as the url of your app, then you can go someway towards making the partials routes only accessible by your site and not from others.
+
+	protectPartials := true
+
 	deploymentSiteURL, deploymentSiteURLExists := os.LookupEnv("DEPLOYMENT_SITE_URL")
+
 	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
 
 	onlyInternal := func(next http.Handler) http.Handler {
 		// This middleware checks that the request is coming from the same URL.
-		// It's not foolproof, but it's a good start at keep partials internal.
+		// It's not foolproof, but it seems an ok start at keep partials internal and avoiding hotlinking
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// Check the Referer header
+
 			referer := r.Header.Get("Referer")
 
 			var siteURL string
@@ -74,45 +57,11 @@ func partialsRouter(partialsMap map[string]func() templ.Component) *chi.Mux {
 			next.ServeHTTP(w, r)
 		})
 	}
-
-	r := chi.NewRouter()
-
-	if deploymentSiteURLExists || (devEnvExists && devEnv == "development") {
-		r.Use(onlyInternal)
+	if protectPartials && (deploymentSiteURLExists || (devEnvExists && devEnv == "development")) {
+		partialsRouter.Use(onlyInternal)
 	}
 
-	r.Get("/{partialName}", func(w http.ResponseWriter, r *http.Request) {
-		partialName := chi.URLParam(r, "partialName")
-
-		partialComponent, ok := partialsMap[partialName]
-		if !ok {
-			http.Error(w, "Partial not found.", http.StatusNotFound)
-			return
-		}
-		templ.Handler(partialComponent()).ServeHTTP(w, r)
-	})
-
-	return r
-}
-
-func main() {
-
-	// A map of page routes to pages written as templ components.
-	pagesMap := map[string]func() templ.Component{
-		"/":      pages.Home,
-		"/about": pages.About,
-	}
-
-	// A map of partial routes to partials written as templ components.
-	partialsMap := map[string]func() templ.Component{
-		"new_headline": partials.NewHeadline,
-	}
-
-	devEnv, devEnvExists := os.LookupEnv("GO_ENV")
-
-	r := chi.NewRouter()
-
-	// Middleware
+	// General Middleware
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
@@ -143,10 +92,48 @@ func main() {
 	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 
 	// Page routes
-	r.Mount("/", pagesRouter(pagesMap))
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		templ.Handler(pages.Home()).ServeHTTP(w, r)
+	})
 
-	// Partials
-	r.Mount("/partials", partialsRouter(partialsMap))
+	r.Get("/about", func(w http.ResponseWriter, r *http.Request) {
+		templ.Handler(pages.About()).ServeHTTP(w, r)
+	})
+
+	// Partials routes
+	partialHandlers := map[string]func() (templ.Component, error){
+
+		"new_headline": func() (templ.Component, error) {
+			return partials.NewHeadline(), nil
+		},
+
+		"random_name": func() (templ.Component, error) {
+			userData, err := fetchRandomUser.FetchRandomUser()
+			if err != nil {
+				return nil, err
+			}
+			return partials.RandomName(*userData), nil
+		},
+
+		// Add other partial handlers here...
+	}
+
+	partialsRouter.Get("/{partialName}", func(w http.ResponseWriter, r *http.Request) {
+		partialName := chi.URLParam(r, "partialName")
+		handler, ok := partialHandlers[partialName]
+		if !ok {
+			http.Error(w, "Partial not found.", http.StatusNotFound)
+			return
+		}
+		component, err := handler()
+		if err != nil {
+			http.Error(w, "Failed to handle request.", http.StatusInternalServerError)
+			return
+		}
+		templ.Handler(component).ServeHTTP(w, r)
+	})
+
+	r.Mount("/partials", partialsRouter)
 
 	// Start the server using the local Friendly Server package
 	friendlyServer.FriendlyServer(r)

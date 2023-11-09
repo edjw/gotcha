@@ -7,13 +7,18 @@ templ Home() {
 	@layouts.PageLayout("Home") {
 		<section>
 			<p>This is the home page.</p>
+			<p><a href="#htmx">Go to HTMX demo</a></p>
+			<p><a href="#alpine">Go to Alpine demo</a></p>
 		</section>
-		<section>
+		<section id="htmx">
 			<h2 class="mt-1">A demo of HTMX</h2>
 			<a href="https://htmx.org">See the HTMX docs</a>
-			<p>This first button below uses HTMX to fetch the headline from <code>https://jsonplaceholder.typicode.com</code> and then replaces this page's current h1 with the content of that headline. The second button fetches a local partial. It keeps locality of behaviour to within the HTML in the templ template.</p>
-			<div class="flex flex-col gap-y-4">
-				<div>
+			<p>These buttons replace the h1 at the top of this page</p>
+			<ol class="flex flex-col mt-0 gap-y-4">
+				<li>
+					<p>
+						<strong>Fetch the headline from <code>jsonplaceholder.typicode.com</code></strong>
+					</p>
 					<button
  						class="flex items-center px-2 py-1 border rounded select-none gap-x-2"
  						hx-get="https://jsonplaceholder.typicode.com/"
@@ -24,19 +29,38 @@ templ Home() {
 						Swap the title with jsonplaceholder title
 						<img class="my-0 opacity-0 htmx-indicator h-7" src="/public/spinner.svg"/>
 					</button>
-				</div>
-				<div>
+				</li>
+				<li>
+					<p>
+						<strong>
+							Fetch a local static partial
+						</strong>
+					</p>
 					<button
- 						class="px-2 py-1 border rounded select-none"
+ 						class="flex items-center px-2 py-1 border rounded select-none gap-x-2"
  						hx-get="/partials/new_headline"
  						hx-swap="outerHTML ignoreTitle:true"
  						hx-target="h1"
  						hx-select="h1"
 					>
-						Swap the title with a local partial
+						Swap the title with a local static partial
+						<img class="my-0 opacity-0 htmx-indicator h-7" src="/public/spinner.svg"/>
 					</button>
-				</div>
-			</div>
+				</li>
+				<li>
+					<p><strong>Fetch a local dynamic partial that fetches a new name from an API</strong></p>
+					<button
+ 						class="flex items-center px-2 py-1 border rounded select-none gap-x-2"
+ 						hx-get="/partials/random_name"
+ 						hx-swap="outerHTML ignoreTitle:true"
+ 						hx-target="h1"
+ 						hx-select="h1"
+					>
+						Swap the title with a local dynamic partial
+						<img class="my-0 opacity-0 htmx-indicator h-7" src="/public/spinner.svg"/>
+					</button>
+				</li>
+			</ol>
 			<p>Here's the code for that</p>
 			<pre>
 				&lt;button
@@ -79,15 +103,15 @@ templ Home() {
 				&lt;/button&gt;
 			</pre>
 		</section>
-		<section>
+		<section id="alpine">
 			<h2 class="mt-1">A demo of Alpine</h2>
 			<a href="https://alpinejs.dev">See the Alpine docs</a>
-			<p>The button below uses clientside Javascript with Alpine to increment a number. It keeps locality of behaviour to within the HTML in the templ template.</p>
+			<p>
+				The button below uses clientside Javascript with Alpine to increment a number. It keeps locality of behaviour to
+				within the HTML in the templ template.
+			</p>
 			<div x-data="{ count: 0 }">
-				<button
- 					class="px-2 py-1 border rounded select-none"
- 					x-on:click="count++"
-				>Increment</button>
+				<button class="px-2 py-1 border rounded select-none" x-on:click="count++">Increment</button>
 				<span x-text="count"></span>
 			</div>
 			<div>

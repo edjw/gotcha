@@ -28,7 +28,7 @@ Run `air` to start in development.
 
 If you want live-reload of the browser, run `browser-sync start --config browser-sync-config.js` in a separate terminal tab. It has to wait for the things in `air` to finish before reloading so it is not a very fast automatic live-reload. You can also just manually refresh your browser.
 
-Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
+Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL` and give it the full URL of your site eg `https://gotcha-zain.onrender.com`. If you do, this will try to prevent requests to your partials/fragments of HTML from other sites.
 
 ## Deploy
 
@@ -48,6 +48,11 @@ Optionally, you can set an environment variable called `DEPLOYMENT_SITE_URL`. If
 ### AWS via Flightcontrol
 
 - Works with just the Dockerfile
+
+
+### Digital Ocean Apps Platform
+
+- Works with just the Dockerfile. Make sure you disable the other auto-detected 'service' and just use the Dockerfile.
 
 
 ## Future
