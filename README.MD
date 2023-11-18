@@ -5,7 +5,7 @@ A stack for web development using the following projects
 - **Go**
 - **T**empl for templating
 - **T**ailwind for CSS
-- **C**i for routing
+- **C**hi for routing
 - **H**TMX for fetching server state as HTML and updating the DOM
 - **A**lpine for clientside Javascript in your HTML
 
